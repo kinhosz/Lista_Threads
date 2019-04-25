@@ -48,7 +48,7 @@ void *bitmap(void *Arg){
     pthread_t thread1,thread2,thread3,thread4;
     // status de retorno da criacao das threads
     int s1,s2,s3,s4;
-    int meio,resto,meio2,resto2;
+    int meio,meio2;
     // argumentos das funcoes
     DATA *A1,*A2,*A3,*A4; 
     // alocando memoria
@@ -74,18 +74,17 @@ void *bitmap(void *Arg){
         // so existe uma linha, logo tera 2 threads
         if(linhai == linhaf){
             meio = (colunai+colunaf)/2;
-            resto = (colunai+colunaf+1)%2;
             // passando os argumentos para A1
             A1->id = id*4;
             A1->linha_inicial = linhai;
             A1->linha_final = linhaf;
             A1->coluna_inicial = colunai;
-            A1->coluna_final = meio + resto; // pega a metade da coluna
+            A1->coluna_final = meio; // pega a metade da coluna
             // passando os argumentos para A2
             A2->id = id*4 + 1;
             A2->linha_inicial = linhai;
             A2->linha_final = linhaf;
-            A2->coluna_inicial = meio+resto+1; //pega a segunda metade da coluna
+            A2->coluna_inicial = meio+1; //pega a segunda metade da coluna
             A2->coluna_final = colunaf;
 
             // criando a primeira thread
@@ -107,19 +106,21 @@ void *bitmap(void *Arg){
             // concatena as strings
             strcat(ret,retorno1);
             strcat(ret,retorno2);
+            // libera as strings usadas
+            free(retorno1);
+            free(retorno2);
         }
         else if(colunai==colunaf){
             meio = (linhai+linhaf)/2;
-            resto = (linhai+linhaf+1)%2;
             // passando os argumentos para A1
             A1->id = id*4;
             A1->linha_inicial = linhai;
-            A1->linha_final = meio+resto;
+            A1->linha_final = meio;
             A1->coluna_inicial = colunai;
             A1->coluna_final = colunaf; // pega a metade da coluna
             // passando os argumentos para A2
             A2->id = id*4 + 1;
-            A2->linha_inicial = meio+resto+1;
+            A2->linha_inicial = meio+1;
             A2->linha_final = linhaf;
             A2->coluna_inicial = colunai; //pega a segunda metade da coluna
             A2->coluna_final = colunaf;
@@ -143,36 +144,37 @@ void *bitmap(void *Arg){
             // concatena as strings
             strcat(ret,retorno1);
             strcat(ret,retorno2);
+            // libera as strings usadas
+            free(retorno1);
+            free(retorno2);
         }
         else{
             meio = (linhai+linhaf)/2;
-            resto = (linhai+linhaf+1)%2;
             meio2 = (colunai+colunaf)/2;
-            resto2 = (colunai+colunaf+1)%2;
             // bloco superior da esquerda
             A1->id = id*4;
             A1->linha_inicial = linhai;
-            A1->linha_final = meio+resto;
+            A1->linha_final = meio;
             A1->coluna_inicial = colunai;
-            A1->coluna_final = meio2+resto2;
+            A1->coluna_final = meio2;
             // bloco superior da direita
-            A1->id = id*4 + 1;
-            A1->linha_inicial = linhai;
-            A1->linha_final = meio+resto;
-            A1->coluna_inicial = meio2+resto2+1;
-            A1->coluna_final = colunaf;
+            A2->id = id*4 + 1;
+            A2->linha_inicial = linhai;
+            A2->linha_final = meio;
+            A2->coluna_inicial = meio2+1;
+            A2->coluna_final = colunaf;
             // bloco inferior esquerdo
-            A1->id = id*4 + 2;
-            A1->linha_inicial = meio+resto+1;
-            A1->linha_final = linhaf;
-            A1->coluna_inicial = colunai;
-            A1->coluna_final = meio2+resto2;
+            A3->id = id*4 + 2;
+            A3->linha_inicial = meio+1;
+            A3->linha_final = linhaf;
+            A3->coluna_inicial = colunai;
+            A3->coluna_final = meio2;
             // bloco inferior direito
-            A1->id = id*4 + 3;
-            A1->linha_inicial = meio+resto+1;
-            A1->linha_final = linhaf;
-            A1->coluna_inicial = meio2+resto2+1;
-            A1->coluna_final = colunaf;
+            A4->id = id*4 + 3;
+            A4->linha_inicial = meio+1;
+            A4->linha_final = linhaf;
+            A4->coluna_inicial = meio2+1;
+            A4->coluna_final = colunaf;
 
             // criando threads
             s1 = pthread_create(&thread1,NULL,bitmap,(void *) A1);
@@ -207,6 +209,12 @@ void *bitmap(void *Arg){
             strcat(ret,retorno2);
             strcat(ret,retorno3);
             strcat(ret,retorno4);
+
+            // libera as strings usadas
+            free(retorno1);
+            free(retorno2);
+            free(retorno3);
+            free(retorno4);
         }
 
     }
