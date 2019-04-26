@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-#define MAX_THREADS 40000
+#define MAX_THREADS 1000 // criando no maximo 1000 threads na main
 
 int contador = 0;
 pthread_mutex_t mymutex = PTHREAD_MUTEX_INITIALIZER; // inicicando mutex
