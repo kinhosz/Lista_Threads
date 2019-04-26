@@ -1,0 +1,16 @@
+Grupo:
+
+José Carlos da Silva Cruz (JCSC)
+Alexsandro José da Silva (AJS6)
+Zenio Angelo de Oliveira Néves (zaon)
+
+
+
+
+
+obs.: os caso exemplo da questão quatro esta dentro da pasta ex.1
+ para o programa rodar certo é necessário que ele fique na mesma pasta que o arquivo de saida.
+
+	Numero de arquivo= 3
+	Numero de candidatos = 5;
+
